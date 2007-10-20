@@ -5,7 +5,7 @@
  * @file
  * Provides advanced settings for the Update status module in core.
  *
- * Extends the settings tab at admin/logs/updates/settings to provide
+ * Extends the settings tab at admin/reports/updates/settings to provide
  * per-project controls for ignoring specific projects or even specific
  * recommended releases.
  *

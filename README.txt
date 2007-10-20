@@ -1,9 +1,9 @@
 The "Update status advanced settings" module extends the administrative
 interface for Drupal core's "Update status" module. It provides
 additional configuration options on the "Settings" tab of the
-"Available updates" report, located at: admin/logs/updates/settings
+"Available updates" report, located at: admin/reports/updates/settings
 
-  Administer >> Logs >> Available updates >> Settings 
+  Administer >> Reports >> Available updates >> Settings 
 
 These advanced settings allow site administrators fine-grained control
 to ignore certain projects on the available updates report, even when
