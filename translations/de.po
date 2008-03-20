@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: update_stats\n"
 "POT-Creation-Date: 2008-03-19 21:41+0100\n"
-"PO-Revision-Date: 2008-03-20 08:39+0100\n"
+"PO-Revision-Date: 2008-03-20 08:57+0100\n"
 "Last-Translator: Alexander Hass\n"
 "Language-Team: Alexander Hass\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: update_advanced.settings.inc:36
 msgid "These settings allow you to control if a certain project, or even a specific release of that project, should be ignored by the available updates report.  For each project, you can select if it should always warn you about a newer release, never warn you (ignore the project completely), or ignore a specific available release you do not want to upgrade to. You can also specify a note explaining why you are ignoring a specific project or version, and that will be displayed on the available updates report."
-msgstr "Diese Einstellungen ermöglicht die Kontrolle, ob ein bestimmtes Projekt oder spezielle Veröffentlichung von diesem Projekt, im Bericht über verfügbare Aktualisierungen ignoriert werden soll. Für jedes Projekt kann eingestellt werden, ob bei neuen Veröffentlichungen immer gewarnt wird, nie gewarnt wird (Projekt vollständig ignorieren) oder die Aktualisierung auf eine bestimmte Veröffentlichung ignoriert werden soll. Warum ein bestimmtes Projekt oder Version ignoriert wird, kann als Bemerkung angegeben werden, die im Bericht zu verfügbaren Aktualisierungen angezeigt wird."
+msgstr "Diese Einstellungen ermöglichen die Kontrolle, ob ein bestimmtes Projekt oder spezielle Veröffentlichung von diesem Projekt, im Bericht über verfügbare Aktualisierungen ignoriert werden soll. Für jedes Projekt kann eingestellt werden, ob bei neuen Veröffentlichungen immer gewarnt wird, nie gewarnt wird (Projekt vollständig ignorieren) oder die Aktualisierung auf eine bestimmte Veröffentlichung ignoriert werden soll. Warum ein bestimmtes Projekt oder Version ignoriert wird, kann als Bemerkung angegeben werden, die im Bericht zu verfügbaren Aktualisierungen angezeigt wird."
 
 #: update_advanced.settings.inc:49
 msgid "Always"
