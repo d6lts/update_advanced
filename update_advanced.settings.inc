@@ -11,7 +11,7 @@
  * Alters the update_settings form to add advanced, per-project settings.
  */
 function _update_advanced_alter_settings(&$form, $form_state) {
-  if ($available = update_get_available(FALSE)) {
+  if ($available = update_get_available(TRUE)) {
     $path = drupal_get_path('module', 'update_advanced');
     drupal_add_css($path .'/update_advanced.css');
 
