@@ -9,7 +9,7 @@
  * per-project controls for ignoring specific projects or even specific
  * recommended releases.
  *
- * See the README.txt file for more information. 
+ * See the README.txt file for more information.
  *
  * @author Derek Wright ("dww") http://drupal.org/user/46549
  */
@@ -26,13 +26,21 @@ function update_advanced_theme() {
 }
 
 /**
- * Implementation of hook_form_alter().
+ * Implementation of hook_form_FORM_ID_alter().
  */
-function update_advanced_form_alter(&$form, $form_state, $form_id) {
-  if ($form_id == 'update_settings') {
-    $path = drupal_get_path('module', 'update_advanced');
-    include_once "$path/update_advanced.settings.inc";
-    _update_advanced_alter_settings($form, $form_state);
+function update_advanced_form_update_settings_alter(&$form, $form_state) {
+  module_load_include('inc', 'update_advanced', 'update_advanced.settings');
+  _update_advanced_alter_settings($form, $form_state);
+}
+
+/**
+ * Implementation of hook_update_projects_alter().
+ */
+function update_advanced_update_projects_alter(&$projects) {
+  if (variable_get('update_advanced_check_disabled', FALSE)) {
+    module_load_include('inc', 'update_advanced', 'update_advanced.compare');
+    _update_advanced_process_disabled_info_list($projects, module_rebuild_cache(), 'disabled-module');
+    _update_advanced_process_disabled_info_list($projects, system_theme_data(), 'disabled-theme');
   }
 }
 
