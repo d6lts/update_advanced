@@ -113,7 +113,8 @@ function theme_update_advanced_settings($form) {
       if (!isset($rows[$project['project_type']])) {
         $rows[$project['project_type']] = array();
       }
-      $rows[$project['project_type']][] = $row;
+      $row_key = drupal_strtolower($available[$key]['title']);
+      $rows[$project['project_type']][$row_key] = $row;
     }
   }
   $split_rows = array();
@@ -136,6 +137,7 @@ function theme_update_advanced_settings($form) {
           ),
         ),
       );
+      ksort($rows[$type_name]);
       $split_rows = array_merge($split_rows, $rows[$type_name]);
     }
   }
