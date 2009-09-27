@@ -15,7 +15,7 @@
  */
 
 /**
- * Implementation of the hook_theme() registry.
+ * Implementation of hook_theme().
  */
 function update_advanced_theme() {
   return array(

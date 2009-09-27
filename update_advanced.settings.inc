@@ -130,10 +130,10 @@ function theme_update_advanced_settings($form) {
       $split_rows[] = array(
         'class' => 'update-advanced-settings-label',
         'data' => array(
-           array(
-             'class' => 'update-advanced-settings-label',
-             'data' => $type_label,
-             'colspan' => 3,
+          array(
+            'class' => 'update-advanced-settings-label',
+            'data' => $type_label,
+            'colspan' => 3,
           ),
         ),
       );
