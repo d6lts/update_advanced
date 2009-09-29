@@ -151,7 +151,7 @@ function theme_update_advanced_settings($form) {
 }
 
 /**
- * Submit callback handler for the update status settings tab.
+ * Submit handler for the update status settings tab.
  *
  * Ensures that the temporary form data required for the theme function is not
  * actually saved into the {variables} table, then invokes the true submit
@@ -172,7 +172,6 @@ function update_advanced_settings_submit($form, &$form_state) {
   // if so, invalidate all cached update status data.
   $check_disabled = variable_get('update_advanced_check_disabled', FALSE);
   if ($form_state['values']['update_advanced_check_disabled'] != $check_disabled) {
-    drupal_set_message(t('The <em>check for updates of disabled modules and themes</em> setting has been changed, attempted to refetch available update data.'));
     update_invalidate_cache();
   }
 }
