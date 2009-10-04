@@ -59,21 +59,57 @@ function update_advanced_update_projects_alter(&$projects) {
  * @see update_calculate_project_data()
  */
 function update_advanced_update_status_alter(&$projects) {
-  $settings = variable_get('update_advanced_project_settings', array());
   foreach ($projects as $project => $project_info) {
-    if (isset($settings[$project]) && isset($settings[$project]['check']) &&
-        ($settings[$project]['check'] == 'never' ||
-         (isset($project_info['recommended']) &&
-          $settings[$project]['check'] === $project_info['recommended']))) {
+    $ignored = update_advanced_is_project_ignored($project, $project_info);
+    if ($ignored !== FALSE) {
       $projects[$project]['status'] = UPDATE_NOT_CHECKED;
       $projects[$project]['reason'] = t('Ignored from settings');
-      if (!empty($settings[$project]['notes'])) {
+      if ($ignored !== TRUE) {
         $projects[$project]['extra'][] = array(
           'class' => 'admin-note',
           'label' => t('Administrator note'),
-          'data' => $settings[$project]['notes'],
+          'data' => $ignored,
         );
       }
     }
+  }
+}
+
+/**
+ * Check if a project or a project's release has been set to be ignored.
+ *
+ * @param $project
+ *   A string with the project name.
+ * @param $update_info
+ *   An array with the information fetched from update.module.
+ * @return
+ *   A string with the administrator note or TRUE if the project should be
+ *   ignored in update results, or FALSE otherwise.
+ */
+function update_advanced_is_project_ignored($project, $update_info) {
+  static $settings;
+
+  if (!isset($settings)) {
+    $settings = variable_get('update_advanced_project_settings', array());
+  }
+
+  $ignored = FALSE;
+  if (isset($settings[$project]['check'])) {
+    if ($settings[$project]['check'] == 'never') {
+      // User has set this project to always be ignored.
+      $ignored = TRUE;
+    }
+    elseif (isset($update_info['recommended']) && $settings[$project]['check'] === $update_info['recommended']) {
+      // User has set this version to be ignored.
+      $ignored = TRUE;
+    }
+  }
+
+  if ($ignored && !empty($settings[$project]['notes'])) {
+    // Return the ignore note if available.
+    return $settings[$project]['notes'];
+  }
+  else {
+    return $ignored;
   }
 }
