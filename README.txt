@@ -51,4 +51,3 @@ Inspired by similar functionality in the "Update status" module for
 Drupal version 5.x in the contributions repository, by Earl Miles and
 Derek Wright (http://drupal.org/project/update_status).
 
-$Id$
