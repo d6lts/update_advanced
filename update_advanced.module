@@ -14,37 +14,27 @@
  */
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  */
 function update_advanced_theme() {
   return array(
     'update_advanced_settings' => array(
-      'arguments' => array('form' => NULL),
+      'render element' => 'form',
+      'file' => 'update_advanced.settings.inc',
     ),
   );
 }
 
 /**
- * Implementation of hook_form_FORM_ID_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function update_advanced_form_update_settings_alter(&$form, $form_state) {
+function update_advanced_form_update_settings_alter(&$form, &$form_state, $form_id) {
   module_load_include('inc', 'update_advanced', 'update_advanced.settings');
   _update_advanced_alter_settings($form, $form_state);
 }
 
 /**
- * Implementation of hook_update_projects_alter().
- */
-function update_advanced_update_projects_alter(&$projects) {
-  if (variable_get('update_advanced_check_disabled', FALSE)) {
-    module_load_include('inc', 'update_advanced', 'update_advanced.compare');
-    _update_advanced_process_disabled_info_list($projects, module_rebuild_cache(), 'disabled-module');
-    _update_advanced_process_disabled_info_list($projects, system_theme_data(), 'disabled-theme');
-  }
-}
-
-/**
- * Implementation of hook_update_status_alter().
+ * Implements hook_update_status_alter().
  *
  * This compares the array of computed information about projects that are
  * missing available updates with the saved settings. If the settings specify
@@ -65,7 +55,7 @@ function update_advanced_update_status_alter(&$projects) {
       $projects[$project]['reason'] = t('Ignored from settings');
       if ($ignored !== TRUE) {
         $projects[$project]['extra'][] = array(
-          'class' => 'admin-note',
+          'class' => array('admin-note'),
           'label' => t('Administrator note'),
           'data' => $ignored,
         );
@@ -86,7 +76,7 @@ function update_advanced_update_status_alter(&$projects) {
  *   ignored in update results, or FALSE otherwise.
  */
 function update_advanced_is_project_ignored($project, $update_info) {
-  static $settings;
+  $settings = &drupal_static(__FUNCTION__);
 
   if (!isset($settings)) {
     $settings = variable_get('update_advanced_project_settings', array());
@@ -108,7 +98,6 @@ function update_advanced_is_project_ignored($project, $update_info) {
     // Return the ignore note if available.
     return $settings[$project]['notes'];
   }
-  else {
-    return $ignored;
-  }
+
+  return $ignored;
 }

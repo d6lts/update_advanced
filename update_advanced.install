@@ -6,9 +6,8 @@
  */
 
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function update_advanced_uninstall() {
-  variable_del('update_advanced_check_disabled');
   variable_del('update_advanced_project_settings');
 }

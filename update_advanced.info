@@ -1,4 +1,4 @@
 name = Update status advanced settings
 description = Adds advanced settings and extra functionality to the Update status module in core.
-core = 6.x
+core = 7.x
 dependencies[] = update
