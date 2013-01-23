@@ -30,7 +30,7 @@ function _update_advanced_alter_settings(&$form, $form_state) {
   array_unshift($form['#submit'], 'update_advanced_settings_submit');
 
   $form['update_advanced_project_settings_help'] = array(
-    '#markup' => t('These settings allow you to control if a certain project, or even a specific release of that project, should be ignored by the available updates report.  For each project, you can select if it should always warn you about a newer release, never warn you (ignore the project completely), or ignore a specific available release you do not want to upgrade to. You can also specify a note explaining why you are ignoring a specific project or version, and that will be displayed on the available updates report.'),
+    '#markup' => t('These settings allow you to control if a certain project, or even a specific release of that project, should be ignored by the available updates report. For each project, you can select if it should always warn you about a newer release, never warn you (ignore the project completely), or ignore a specific available release you do not want to upgrade to. You can also specify a note explaining why you are ignoring a specific project or version, and that will be displayed on the available updates report.'),
   );
 
   foreach ($data as $key => $project) {
