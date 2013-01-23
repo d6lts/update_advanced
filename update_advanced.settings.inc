@@ -103,7 +103,7 @@ function theme_update_advanced_settings($variables) {
       $row = array();
       $row[] = array(
         'class' => array('update-project'),
-        'data' => check_plain($available[$key]['title']),
+        'data' => check_plain(isset($project['title']) ? $project['title'] : $project['info']['name']),
       );
       $row[] = array(
         'class' => array('update-status'),
@@ -116,7 +116,7 @@ function theme_update_advanced_settings($variables) {
       if (!isset($rows[$project['project_type']])) {
         $rows[$project['project_type']] = array();
       }
-      $row_key = drupal_strtolower($available[$key]['title']);
+      $row_key = drupal_strtolower(isset($project['title']) ? $project['title'] : $project['info']['name']);
       $rows[$project['project_type']][$row_key] = $row;
     }
   }
