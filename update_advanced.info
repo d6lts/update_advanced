@@ -1,4 +1,5 @@
 name = Update status advanced settings
 description = Adds advanced settings and extra functionality to the Update status module in core.
+configure = admin/reports/updates/settings
 core = 7.x
 dependencies[] = update
