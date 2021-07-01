@@ -14,15 +14,6 @@
  */
 
 /**
- * Implementation of hook_init().
- */
-function update_advanced_init() {
-  // Determine if the myDropWizard module is available to hook into.
-  global $mdw;
-  $mdw = module_exists('mydropwizard');
-}
-
-/**
  * Implementation of hook_requirements().
  *
  * @return

@@ -9,7 +9,7 @@
  * Alters the update_settings form to add advanced, per-project settings.
  */
 function _update_advanced_alter_settings(&$form, $form_state) {
-  global $mdw;
+  $mdw = module_exists('mydropwizard');
 
   $form['update_advanced_check_disabled'] = array(
     '#type' => 'checkbox',
@@ -90,7 +90,7 @@ function _update_advanced_alter_settings(&$form, $form_state) {
  * form elements into their proper places for maximum clarity.
  */
 function theme_update_advanced_settings($form) {
-  global $mdw;
+  $mdw = module_exists('mydropwizard');
 
   $output = '';
   if ($mdw) {
@@ -192,8 +192,6 @@ function theme_update_advanced_settings($form) {
  * the "No available releases found" warning).
  */
 function update_advanced_settings_submit($form, &$form_state) {
-  global $mdw;
-
   unset($form_state['values']['data']);
   unset($form_state['values']['available']);
 
@@ -201,7 +199,7 @@ function update_advanced_settings_submit($form, &$form_state) {
   // if so, invalidate all cached update status data.
   $check_disabled = variable_get('update_advanced_check_disabled', FALSE);
   if ($form_state['values']['update_advanced_check_disabled'] != $check_disabled) {
-    if ($mdw) {
+    if (module_exists('mydropwizard')) {
       mydropwizard_invalidate_cache();
     }
     else {
