@@ -14,6 +14,33 @@
  */
 
 /**
+ * Implementation of hook_init().
+ */
+function update_advanced_init() {
+  // Determine if the myDropWizard module is available to hook into.
+  global $mdw;
+  $mdw = module_exists('mydropwizard');
+}
+
+/**
+ * Implementation of hook_requirements().
+ *
+ * @return
+ *   Require either the Update or myDropWizard module.
+ */
+function update_advanced_requirements($phase) {
+  $requirements = array();
+
+  if (!module_exists('update') && !module_exists('mydropwizard')) {
+    $requirements['update_advanced_dependency']['title'] = t('Update advanced module');
+    $requirements['update_advanced_dependency']['value'] = t('To get information about available updates for your installed modules and themes, you need to install either the <a href="!mdw-url">"myDropWizard" module</a> for Drupal 6 Long-Term Support (<em>recommended</em>) or the "Update status" module which is part of Drupal core but mostly shows projects that are no longer supported.', array('!mdw-url' => 'https://www.drupal.org/project/mydropwizard'));
+    $requirements['update_advanced_dependency']['severity'] = REQUIREMENT_ERROR;
+  }
+
+  return $requirements;
+}
+
+/**
  * Implementation of hook_theme().
  */
 function update_advanced_theme() {
@@ -27,15 +54,28 @@ function update_advanced_theme() {
 /**
  * Implementation of hook_form_FORM_ID_alter().
  */
+function update_advanced_form_mydropwizard_settings_alter(&$form, $form_state) {
+  module_load_include('inc', 'update_advanced', 'update_advanced.settings');
+  _update_advanced_alter_settings($form, $form_state);
+}
 function update_advanced_form_update_settings_alter(&$form, $form_state) {
   module_load_include('inc', 'update_advanced', 'update_advanced.settings');
   _update_advanced_alter_settings($form, $form_state);
 }
 
 /**
- * Implementation of hook_update_projects_alter().
+ * Implementation of hook_update_projects_alter() and hook_mydropwizard_projects_alter().
+ *
+ * @see update_get_projects()
+ * @see mydropwizard_get_projects()
  */
 function update_advanced_update_projects_alter(&$projects) {
+  _update_advanced_projects_alter($projects);
+}
+function update_advanced_mydropwizard_projects_alter(&$projects) {
+  _update_advanced_projects_alter($projects);
+}
+function _update_advanced_projects_alter(&$projects) {
   if (variable_get('update_advanced_check_disabled', FALSE)) {
     module_load_include('inc', 'update_advanced', 'update_advanced.compare');
     _update_advanced_process_disabled_info_list($projects, module_rebuild_cache(), 'disabled-module');
@@ -44,7 +84,7 @@ function update_advanced_update_projects_alter(&$projects) {
 }
 
 /**
- * Implementation of hook_update_status_alter().
+ * Implementation of hook_update_status_alter() and hook_mydropwizard_status_alter().
  *
  * This compares the array of computed information about projects that are
  * missing available updates with the saved settings. If the settings specify
@@ -56,8 +96,15 @@ function update_advanced_update_projects_alter(&$projects) {
  *   project installed on the system.
  *
  * @see update_calculate_project_data()
+ * @see mydropwizard_calculate_project_data()
  */
 function update_advanced_update_status_alter(&$projects) {
+  update_advanced_status_alter($projects);
+}
+function update_advanced_mydropwizard_status_alter(&$projects) {
+  update_advanced_status_alter($projects);
+}
+function update_advanced_status_alter(&$projects) {
   foreach ($projects as $project => $project_info) {
     $ignored = update_advanced_is_project_ignored($project, $project_info);
     if ($ignored !== FALSE) {

@@ -9,13 +9,22 @@
  * Alters the update_settings form to add advanced, per-project settings.
  */
 function _update_advanced_alter_settings(&$form, $form_state) {
+  global $mdw;
+
   $form['update_advanced_check_disabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Check for updates of disabled modules and themes'),
     '#default_value' => variable_get('update_advanced_check_disabled', FALSE),
   );
 
-  if ($available = update_get_available(TRUE)) {
+  if ($mdw) {
+    $available = mydropwizard_get_available(TRUE);
+  }
+  else {
+    $available = update_get_available(TRUE);
+  }
+
+  if ($available) {
     drupal_add_css(drupal_get_path('module', 'update_advanced') . '/update_advanced.css');
 
     $form['#theme'] = 'update_advanced_settings';
@@ -23,8 +32,14 @@ function _update_advanced_alter_settings(&$form, $form_state) {
     $values = variable_get('update_advanced_project_settings', array());
     $form['update_advanced_project_settings'] = array('#tree' => TRUE);
 
-    module_load_include('inc', 'update', 'update.compare');
-    $data = update_calculate_project_data($available);
+    if ($mdw) {
+      module_load_include('inc', 'mydropwizard', 'mydropwizard.compare');
+      $data = mydropwizard_calculate_project_data($available);
+    }
+    else {
+      module_load_include('inc', 'update', 'update.compare');
+      $data = update_calculate_project_data($available);
+    }
     $form['data'] = array('#type' => 'value', '#value' => $data);
     $form['available'] = array('#type' => 'value', '#value' => $available);
 
@@ -75,10 +90,19 @@ function _update_advanced_alter_settings(&$form, $form_state) {
  * form elements into their proper places for maximum clarity.
  */
 function theme_update_advanced_settings($form) {
+  global $mdw;
+
   $output = '';
-  $output .= drupal_render($form['update_notify_emails']);
-  $output .= drupal_render($form['update_check_frequency']);
-  $output .= drupal_render($form['update_notification_threshold']);
+  if ($mdw) {
+    $output .= drupal_render($form['mydropwizard_notify_emails']);
+    $output .= drupal_render($form['mydropwizard_check_frequency']);
+    $output .= drupal_render($form['mydropwizard_notification_threshold']);
+  }
+  else {
+    $output .= drupal_render($form['update_notify_emails']);
+    $output .= drupal_render($form['update_check_frequency']);
+    $output .= drupal_render($form['update_notification_threshold']);
+  }
   $output .= drupal_render($form['update_advanced_check_disabled']);
 
   $header = array(
@@ -144,8 +168,12 @@ function theme_update_advanced_settings($form) {
   $output .= '<div class="form-item"><div class="description">' ."\n";
   $output .= drupal_render($form['update_advanced_project_settings_help']);
   $output .= "</div></div>\n";
+  if ($mdw) {
+    $output .= drupal_render($form['mydropwizard_customers']);
+  }
   $output .= drupal_render($form['buttons']);
   $output .= drupal_render($form);
+
   return $output;
 }
 
@@ -164,6 +192,8 @@ function theme_update_advanced_settings($form) {
  * the "No available releases found" warning).
  */
 function update_advanced_settings_submit($form, &$form_state) {
+  global $mdw;
+
   unset($form_state['values']['data']);
   unset($form_state['values']['available']);
 
@@ -171,6 +201,11 @@ function update_advanced_settings_submit($form, &$form_state) {
   // if so, invalidate all cached update status data.
   $check_disabled = variable_get('update_advanced_check_disabled', FALSE);
   if ($form_state['values']['update_advanced_check_disabled'] != $check_disabled) {
-    update_invalidate_cache();
+    if ($mdw) {
+      mydropwizard_invalidate_cache();
+    }
+    else {
+      update_invalidate_cache();
+    }
   }
 }

@@ -1,6 +1,7 @@
 The "Update status advanced settings" module extends the administrative
-interface for Drupal core's "Update status" module. It provides
-additional configuration options on the "Settings" tab of the
+interface for Drupal core's "Update status" module and has been extended for
+notifications through the "myDropWizard" module for Drupal 6 Long-Term Support.
+It provides additional configuration options on the "Settings" tab of the
 "Available updates" report, located at: admin/reports/updates/settings
 
   Administer >> Reports >> Available updates >> Settings 
@@ -45,7 +46,8 @@ Update status advanced settings module:
 http://drupal.org/node/add/project_issue/update_advanced
 
 
-Written by: Derek Wright ("dww") http://drupal.org/user/46549
+Original module written by: Derek Wright ("dww") http://drupal.org/user/46549
+Modified for myDropWizard by: Hargobind https://www.drupal.org/user/216765
 
 Inspired by similar functionality in the "Update status" module for
 Drupal version 5.x in the contributions repository, by Earl Miles and
