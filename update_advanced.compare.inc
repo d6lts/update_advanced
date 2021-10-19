@@ -5,10 +5,14 @@
  * Code required only when comparing available updates to existing data.
  */
 
-// Make sure we always have /modules/mydropwizard/mydropwizard.compare.inc loaded.
-module_load_include('inc', 'mydropwizard', 'mydropwizard.compare');
-// Make sure we always have /modules/update/update.compare.inc loaded.
-module_load_include('inc', 'update', 'update.compare');
+if (module_exists('mydropwizard')) {
+  // Make sure we always have /modules/mydropwizard/mydropwizard.compare.inc loaded.
+  module_load_include('inc', 'mydropwizard', 'mydropwizard.compare');
+}
+else {
+  // Make sure we always have /modules/update/update.compare.inc loaded.
+  module_load_include('inc', 'update', 'update.compare');
+}
 
 /**
  * Populate an array of disabled project data.
