@@ -38,7 +38,12 @@ function _update_advanced_process_disabled_info_list(&$projects, $list, $project
 
     // If the .info doesn't define the 'project', try to figure it out.
     if (!isset($file->info['project'])) {
-      $file->info['project'] = update_get_project_name($file);
+      if (module_exists('mydropwizard')) {
+        $file->info['project'] = mydropwizard_get_project_name($file);
+      }
+      else {
+        $file->info['project'] = update_get_project_name($file);
+      }
     }
 
     // If we still don't know the 'project', give up.
